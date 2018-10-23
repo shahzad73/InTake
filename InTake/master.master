@@ -1,0 +1,91 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="master.master.cs" Inherits="master" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+   
+    
+
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF=8" />
+		<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1.0" />
+
+		<title>Levenbaum Trachtenberg Intake Management System</title>
+
+		<link rel="stylesheet" type="text/css" href="styles/reset.css" />
+		<link rel="stylesheet" type="text/css" href="styles/style.css" />
+		<link rel="stylesheet" type="text/css" href="styles/screen_layout_large.css" />
+		<link rel="stylesheet" type="text/css" media="only screen and (min-width:50px) and (max-width:550px)" href="styles/screen_layout_small.css" />
+		<link rel="stylesheet" type="text/css" media="only screen and (min-width:551px) and (max-width:800px)" href="styles/screen_layout_medium.css" />
+		<!--[if lt IE 9]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+
+		<link rel="shortcut icon" href="/favicon.ico" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+        <script src="scripts/jquery.js" type="text/javascript"></script>
+        <script src="scripts/ui/jquery-ui.min.js" type="text/javascript"></script> 
+        <script src="base.js" type="text/javascript"></script>
+        
+
+</head>
+<body>
+
+<div>
+        <form id="form1" runat="server">
+
+			<header>
+				<div id="top-bar" class="gradient">
+					<div class="wrapper">
+						<div id="logo" style="vertical-align:middle;">
+							<img width="30px" style="vertical-align:middle;" src="images/logo.jpg" /> &nbsp; <span style="font-weight:bold; vertical-align:middle;"> Levenbaum Trachtenberg Intake Management System </span>
+						</div>
+						<div id="top-links">
+							<ul class="nav">
+								<li>
+									<a href="home.aspx" class="gradient"><img src="images/home.png" />HOME</a>
+								</li>
+                                <li>
+									<a href="reports.aspx" class="gradient"><img src="images/profile.png" />Reports</a>
+								</li>
+								<li>
+									<a href="profile.aspx" class="gradient"><img src="images/profile.png" />PROFILE</a>
+								</li>
+								<li>
+									<a href="home.aspx?op=logout" class="gradient"><img src="images/logout.png" />LOGOUT</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</header>
+
+
+
+			<div id="content">
+				
+                    <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+
+                </div>
+
+
+			<footer>
+				<div class="wrapper">
+					<p>
+
+					</p>
+				</div>
+			</footer>
+
+
+    </form>
+
+
+
+
+</div>
+
+</body>
+</html>

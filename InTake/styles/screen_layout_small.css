@@ -1,0 +1,39 @@
+#logo{display:none;}
+h1 { font-size: 12px;}
+#top-links {font-size: 10px;}
+#top-links ul li a {padding: 5px 10px;}
+#bar {font-size: 12px;height:100%;line-height:20px;padding:10px 0;}
+#bar-options li {padding:5px 1px;border:none;display:block;width:100%;}
+#bar-options {float:left;width:100%;}
+#bar-options label {padding-right:10px;line-height:22px;}
+#bar-options select,#bar-options .button,#bar-options span {float:right;line-height:22px;margin-left:5px;}
+#bar-options .button{clear:both; margin-top:10px;}
+select{width:63%;}
+body {font-size: 12px;}
+#form-layout label
+{
+    text-align: left;
+    padding-right: 0px;
+    width: 100%;
+    line-height: 20px;
+	font-weight:bold;
+	font-size: 12px;
+}
+#form-layout input, #form-layout select
+{
+	width:80%;
+	height:20px;
+	line-height: 20px;
+	font-size:12px;
+}
+#form-layout textarea
+{
+	width:80%;
+	font-size:12px;
+}
+#form-layout select
+{
+	width:84%;
+	height:22px;
+}
+.full-width{clear:both;}

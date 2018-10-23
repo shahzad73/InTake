@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="Scripts/jquery-1.4.1.js" type="text/javascript"></script>
+</head>
+
+
+<script language="javascript">
+
+    $(document).ready(function () {
+
+        //alert("here");
+
+    });
+
+
+
+    function DevelopDataSt() {
+
+        $("#Div0").html($("#Div0").html() + "  " + $("#mytxt").val() + "<asp:Label runat=\"server\" ID=\"" + $("#mytxt").val() + "\"></asp:Label>  <br>");
+
+        $("#Div1").html($("#Div1").html() + "  " + "   itm = new DBItem(\"" + $("#mytxt").val() + "\", \"label\", \"" + $("#mytxt").val() + "\", \"string\", false); lst.Add(itm);");
+
+        $("#Div2").html($("#Div2").html() + "  " + "   " + $("#mytxt").val() + "<asp:TextBox runat=\"server\" ID=\"" + $("#mytxt").val() + "\"></asp:TextBox><br>");
+
+        $("#Div3").html($("#Div3").html() + "  " + "   itm = new DBItem(\"" + $("#mytxt").val() + "\", \"textbox\", \"" + $("#mytxt").val() + "\", \"string\", false); lst.Add(itm);");
+
+        $("#mytxt").val("");
+
+    }
+
+
+
+
+</script>
+
+
+<body>
+
+<input type="textbox" id="mytxt" />&nbsp;&nbsp;&nbsp;
+
+
+<input type="button" onclick="DevelopDataSt()" value="Click" />
+    
+<br />
+<br />
+<br />
+<textarea id="Div0" rows="5" cols="200"></textarea>
+
+
+<br />
+<br />
+<br />
+<textarea id="Div1" rows="5" cols="200"></textarea>
+
+
+
+<br />
+<br />
+<br />
+<textarea id="Div2" rows="5" cols="200"></textarea>
+
+
+
+<br />
+<br />
+<br />
+<textarea id="Div3" rows="5" cols="200"></textarea>
+
+
+
+</body>
+</html>

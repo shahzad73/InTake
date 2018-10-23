@@ -1,0 +1,448 @@
+USE [master]
+GO
+/****** Object:  Database [InTake]    Script Date: 08/17/2014 10:35:40 ******/
+CREATE DATABASE [InTake] ON  PRIMARY 
+( NAME = N'InTake', FILENAME = N'D:\SQLDatabases\InTake.mdf' , SIZE = 4096KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
+ LOG ON 
+( NAME = N'InTake_log', FILENAME = N'D:\SQLDatabases\InTake_log.ldf' , SIZE = 3136KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+GO
+ALTER DATABASE [InTake] SET COMPATIBILITY_LEVEL = 100
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [InTake].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [InTake] SET ANSI_NULL_DEFAULT OFF
+GO
+ALTER DATABASE [InTake] SET ANSI_NULLS OFF
+GO
+ALTER DATABASE [InTake] SET ANSI_PADDING OFF
+GO
+ALTER DATABASE [InTake] SET ANSI_WARNINGS OFF
+GO
+ALTER DATABASE [InTake] SET ARITHABORT OFF
+GO
+ALTER DATABASE [InTake] SET AUTO_CLOSE OFF
+GO
+ALTER DATABASE [InTake] SET AUTO_CREATE_STATISTICS ON
+GO
+ALTER DATABASE [InTake] SET AUTO_SHRINK OFF
+GO
+ALTER DATABASE [InTake] SET AUTO_UPDATE_STATISTICS ON
+GO
+ALTER DATABASE [InTake] SET CURSOR_CLOSE_ON_COMMIT OFF
+GO
+ALTER DATABASE [InTake] SET CURSOR_DEFAULT  GLOBAL
+GO
+ALTER DATABASE [InTake] SET CONCAT_NULL_YIELDS_NULL OFF
+GO
+ALTER DATABASE [InTake] SET NUMERIC_ROUNDABORT OFF
+GO
+ALTER DATABASE [InTake] SET QUOTED_IDENTIFIER OFF
+GO
+ALTER DATABASE [InTake] SET RECURSIVE_TRIGGERS OFF
+GO
+ALTER DATABASE [InTake] SET  DISABLE_BROKER
+GO
+ALTER DATABASE [InTake] SET AUTO_UPDATE_STATISTICS_ASYNC OFF
+GO
+ALTER DATABASE [InTake] SET DATE_CORRELATION_OPTIMIZATION OFF
+GO
+ALTER DATABASE [InTake] SET TRUSTWORTHY OFF
+GO
+ALTER DATABASE [InTake] SET ALLOW_SNAPSHOT_ISOLATION OFF
+GO
+ALTER DATABASE [InTake] SET PARAMETERIZATION SIMPLE
+GO
+ALTER DATABASE [InTake] SET READ_COMMITTED_SNAPSHOT OFF
+GO
+ALTER DATABASE [InTake] SET HONOR_BROKER_PRIORITY OFF
+GO
+ALTER DATABASE [InTake] SET  READ_WRITE
+GO
+ALTER DATABASE [InTake] SET RECOVERY FULL
+GO
+ALTER DATABASE [InTake] SET  MULTI_USER
+GO
+ALTER DATABASE [InTake] SET PAGE_VERIFY CHECKSUM
+GO
+ALTER DATABASE [InTake] SET DB_CHAINING OFF
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'InTake', N'ON'
+GO
+USE [InTake]
+GO
+/****** Object:  Table [dbo].[Vehicle]    Script Date: 08/17/2014 10:35:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Vehicle](
+	[id] [numeric](18, 0) IDENTITY(1,1) NOT NULL,
+	[vehicle] [nvarchar](50) NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[users]    Script Date: 08/17/2014 10:35:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[users](
+	[id] [numeric](18, 0) IDENTITY(1,1) NOT NULL,
+	[firstname] [nvarchar](50) NULL,
+	[lastname] [nvarchar](50) NULL,
+	[companyid] [numeric](18, 0) NULL,
+	[email] [nvarchar](150) NULL,
+	[phone] [nvarchar](50) NULL,
+	[username] [nvarchar](50) NULL,
+	[password] [nvarchar](50) NULL,
+	[roleid] [int] NULL,
+	[status] [int] NULL,
+	[salt] [nvarchar](50) NULL,
+	[salted2] [nvarchar](50) NOT NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[test]    Script Date: 08/17/2014 10:35:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[test](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[name] [nvarchar](50) NULL,
+	[address] [nvarchar](50) NULL,
+	[phone] [nvarchar](50) NULL,
+	[country] [numeric](18, 0) NULL,
+	[gender] [numeric](18, 0) NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[StatusTracking]    Script Date: 08/17/2014 10:35:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[StatusTracking](
+	[id] [numeric](18, 0) IDENTITY(1,1) NOT NULL,
+	[StatusChangeDate] [datetime] NULL,
+	[InTakeID] [numeric](18, 0) NULL,
+	[StatusID] [numeric](18, 0) NULL,
+	[ActionTakenByUser] [numeric](18, 0) NULL,
+	[Comments] [varchar](max) NULL
+) ON [PRIMARY]
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Status]    Script Date: 08/17/2014 10:35:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Status](
+	[id] [numeric](18, 0) NULL,
+	[status] [nvarchar](50) NULL,
+	[orderno] [int] NULL,
+	[NoOfFormsInThisList] [int] NULL,
+	[isDisplayedOnListingScreen] [int] NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[State]    Script Date: 08/17/2014 10:35:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[State](
+	[id] [int] NULL,
+	[City] [nvarchar](150) NULL
+) ON [PRIMARY]
+GO
+/****** Object:  StoredProcedure [dbo].[sp_backup]    Script Date: 08/17/2014 10:35:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[sp_backup]
+	@DBName nvarchar(500),
+	@Filename nvarchar(500),
+	@DBDesc nvarchar(500)
+AS
+BEGIN
+    BACKUP DATABASE @DBName TO  DISK = @Filename
+    WITH NOFORMAT, NOINIT,  
+    NAME = @DBDesc, SKIP, NOREWIND, NOUNLOAD,  STATS = 10
+END
+GO
+/****** Object:  Table [dbo].[Role]    Script Date: 08/17/2014 10:35:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Role](
+	[id] [numeric](18, 0) NULL,
+	[role] [nvarchar](50) NULL,
+	[roledesc] [nvarchar](250) NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ReferralSources]    Script Date: 08/17/2014 10:35:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ReferralSources](
+	[id] [numeric](18, 0) IDENTITY(1,1) NOT NULL,
+	[ReferralSource] [nvarchar](50) NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MethodOfInitialContact]    Script Date: 08/17/2014 10:35:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[MethodOfInitialContact](
+	[ID] [int] NULL,
+	[value] [varchar](255) NULL
+) ON [PRIMARY]
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[InTake]    Script Date: 08/17/2014 10:35:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[InTake](
+	[id] [numeric](18, 0) IDENTITY(1,1) NOT NULL,
+	[DateTaken] [datetime] NULL,
+	[TakenByUserID] [numeric](18, 0) NULL,
+	[ReportCurrentStatusID] [numeric](18, 0) NULL,
+	[isNewlyCreated] [int] NULL,
+	[ReportRegionDMAID] [numeric](18, 0) NULL,
+	[InjuryID] [int] NULL,
+	[CountryID] [numeric](18, 0) NULL,
+	[fname] [nvarchar](150) NULL,
+	[lname] [nvarchar](150) NULL,
+	[dob] [nvarchar](150) NULL,
+	[email] [nvarchar](150) NULL,
+	[maritalstatus] [nvarchar](150) NULL,
+	[spousename] [nvarchar](150) NULL,
+	[address1] [nvarchar](150) NULL,
+	[address2] [nvarchar](150) NULL,
+	[city] [nvarchar](150) NULL,
+	[state] [nvarchar](150) NULL,
+	[zip] [nvarchar](150) NULL,
+	[phone1] [nvarchar](50) NULL,
+	[phone2] [nvarchar](50) NULL,
+	[ssn] [nvarchar](50) NULL,
+	[secondarycontactname] [nvarchar](150) NULL,
+	[secondarycontactaddress] [nvarchar](150) NULL,
+	[secondarycontactphone] [nvarchar](150) NULL,
+	[secondarycontactrelationship] [nvarchar](150) NULL,
+	[AccidentDate] [nvarchar](50) NULL,
+	[AccidentTime] [nvarchar](50) NULL,
+	[Accidentampm] [nvarchar](50) NULL,
+	[Accidentdrivername] [nvarchar](150) NULL,
+	[AccidentPassangerName] [nvarchar](150) NULL,
+	[AccidentCollisionDesc] [varchar](max) NULL,
+	[AccidentLocation] [nvarchar](150) NULL,
+	[AccidentCity] [nvarchar](150) NULL,
+	[AccidentState] [nvarchar](150) NULL,
+	[AccidentHelmet] [nvarchar](50) NULL,
+	[AccidentSeatBelt] [nvarchar](50) NULL,
+	[AccidentEmployed] [nvarchar](50) NULL,
+	[ConversationwithAdverseDriver] [nvarchar](4000) NULL,
+	[AccidentOtherAccidentReport] [nvarchar](50) NULL,
+	[AccidentClientCited] [nvarchar](50) NULL,
+	[AccidentAdverseCited] [nvarchar](50) NULL,
+	[AccidentPropertyDamage] [nvarchar](50) NULL,
+	[AccidentPoliceAgencyName] [nvarchar](150) NULL,
+	[AccidentPoliceReportNumber] [nvarchar](150) NULL,
+	[VehicleInfoYear] [nvarchar](50) NULL,
+	[VehicleInfoMake] [nvarchar](150) NULL,
+	[VehicalInfoModel] [nvarchar](150) NULL,
+	[VehicleInfoType] [nvarchar](150) NULL,
+	[ClientInsuranceCompanyName] [nvarchar](150) NULL,
+	[ClientInsurancePolicyNumber] [nvarchar](150) NULL,
+	[ClientInsurancePolicyEffectiveDate] [nvarchar](50) NULL,
+	[ClientInsurancePolicyExpirationDate] [nvarchar](50) NULL,
+	[ClientInsurancClaimNumber] [nvarchar](150) NULL,
+	[ClientInsurancPolicyAdjusterName] [nvarchar](150) NULL,
+	[ClientInsurancAddress] [nvarchar](150) NULL,
+	[ClientInsurancPhone] [nvarchar](150) NULL,
+	[ClientInsurancFax] [nvarchar](150) NULL,
+	[ClientInsurancCollisionCoverage] [nvarchar](50) NULL,
+	[ClientInsurancComprehensiveCoverage] [nvarchar](50) NULL,
+	[ClientInsurancRentalCoverage] [nvarchar](50) NULL,
+	[ClientInsurancMedPayAmount] [nvarchar](150) NULL,
+	[ClientInsurancUninsuredPolicyLimit] [nvarchar](150) NULL,
+	[ClientInsurancUnderInsuredPolicyLimit] [nvarchar](150) NULL,
+	[AlternateInsuranceCompanyName] [nvarchar](150) NULL,
+	[AlternateInsurancePolicyNumber] [nvarchar](150) NULL,
+	[AlternateInsuranceAlternateUMUIMPolicyLimit] [nvarchar](150) NULL,
+	[AdverseDriverDriverName] [nvarchar](150) NULL,
+	[AdverseDriverDrivePhone] [nvarchar](150) NULL,
+	[AdverseDriverDriveAddress] [nvarchar](150) NULL,
+	[AdverseDriverOwnerName] [nvarchar](150) NULL,
+	[AdverseDriverOwnerPhone] [nvarchar](150) NULL,
+	[AdverseDriverOwnerAddress] [nvarchar](150) NULL,
+	[AdverseDriverVehicleYear] [nvarchar](150) NULL,
+	[AdverseDriverVehicleMake] [nvarchar](150) NULL,
+	[AdverseDriverVehicleModel] [nvarchar](150) NULL,
+	[AdverseDriverInsuranceName] [nvarchar](150) NULL,
+	[AdverseDriverInsurancePolicyNumber] [nvarchar](150) NULL,
+	[AdverseDriverInsuranceClaimNumber] [nvarchar](150) NULL,
+	[AdverseDriverInsuranceAdjusterName] [nvarchar](150) NULL,
+	[AdverseDriverInsuranceAddress] [nvarchar](150) NULL,
+	[AdverseDriverInsurancePhone] [nvarchar](150) NULL,
+	[AdverseDriverInsuranceFax] [nvarchar](150) NULL,
+	[ClientInjuryClassificationSoftTissue] [nvarchar](4000) NULL,
+	[ClientInjuryClassificationRoadRash] [nvarchar](4000) NULL,
+	[ClientInjuryClassificationFractures] [nvarchar](4000) NULL,
+	[ClientInjuryClassificationHead] [nvarchar](4000) NULL,
+	[ClientInjuryClassificationTrauma] [nvarchar](4000) NULL,
+	[ClientInjuryClassificationOrganInjuries] [nvarchar](4000) NULL,
+	[ClientInjuryClassificationDeath] [nvarchar](4000) NULL,
+	[ClientInjuryClassificationOther] [nvarchar](4000) NULL,
+	[ClientTreatmentTreatmenttoDate] [nvarchar](4000) NULL,
+	[ClientTreatmentTreatmentFuture] [nvarchar](4000) NULL,
+	[ClientTreatmentPreexistingConditions] [nvarchar](4000) NULL,
+	[HealthInsuranceName] [nvarchar](150) NULL,
+	[HealthInsuranceAddress] [nvarchar](150) NULL,
+	[HealthInsurancePhone] [nvarchar](150) NULL,
+	[HealthInsurancePolicyNumber] [nvarchar](150) NULL,
+	[HealthInsuranceGroupNumber] [nvarchar](150) NULL,
+	[ClientEmployername] [nvarchar](150) NULL,
+	[ClientEmployerAddress] [nvarchar](150) NULL,
+	[ClientEmployerPhone] [nvarchar](150) NULL,
+	[ClientEmployerJobTitle] [nvarchar](150) NULL,
+	[ClientEmployerJobDesc] [nvarchar](150) NULL,
+	[ClientEmployerRateOfPay] [nvarchar](150) NULL,
+	[ClientEmployerWorkMissed] [nvarchar](150) NULL,
+	[PriorInsuranceClaimsDetails] [nvarchar](4000) NULL,
+	[CurrentPriorAttorneyName] [nvarchar](150) NULL,
+	[CurrentPriorAttorneyFirm] [nvarchar](150) NULL,
+	[CurrentPriorAttorneyAddress] [nvarchar](150) NULL,
+	[CurrentPriorAttorneyPhone] [nvarchar](150) NULL,
+	[CurrentPriorAttorneyWithDrawerReason] [nvarchar](150) NULL,
+	[CurrentPriorAttorneyAttorny] [nvarchar](150) NULL,
+	[AdditionalNotes] [varchar](max) NULL,
+	[LastUpdated] [datetime] NULL,
+	[ReferralSourceID] [int] NULL,
+	[isEgypt] [nvarchar](50) NULL,
+	[isClientDead] [nvarchar](50) NULL,
+	[allfields] [nvarchar](max) NULL,
+	[AccidentCountry] [nvarchar](50) NULL,
+	[country] [nvarchar](50) NULL,
+	[witness] [nvarchar](max) NULL,
+	[ReffererSourcesNotes] [nvarchar](4000) NULL,
+	[IsClientDeadListClaimants] [nvarchar](4000) NULL,
+	[gender] [nvarchar](50) NULL,
+	[MethodOfInitialContact] [int] NULL,
+	[ClientVehicleLienHolder] [nvarchar](150) NULL,
+	[ClientVehicleCustomPartsEquipment] [nvarchar](150) NULL,
+	[ClientVehiclePersonalProperty] [nvarchar](150) NULL,
+	[ClientVehicleDamageEstimate] [nvarchar](150) NULL,
+	[ClientVehicleEstimatedMarketValue] [nvarchar](150) NULL,
+	[ClientVehiclePhotos] [nvarchar](150) NULL,
+	[ClientVehicleCurrentLocation] [nvarchar](150) NULL,
+	[ClientVehicleBikeType] [nvarchar](150) NULL,
+	[AdverseDriverRecordedStatement] [nvarchar](150) NULL,
+	[HealthInsurancePolicyHolder] [nvarchar](150) NULL,
+	[HealthInsuranceGroupName] [nvarchar](150) NULL,
+	[ClientEmployerNameOfSupervisor] [nvarchar](150) NULL,
+	[InjuryTypeID] [numeric](18, 0) NULL
+) ON [PRIMARY]
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[InjuryTypes]    Script Date: 08/17/2014 10:35:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[InjuryTypes](
+	[InjuryID] [int] NOT NULL,
+	[InjuryName] [varchar](255) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[InjuryID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Injury]    Script Date: 08/17/2014 10:35:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Injury](
+	[id] [numeric](18, 0) IDENTITY(1,1) NOT NULL,
+	[injury] [nvarchar](50) NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[DMARegion]    Script Date: 08/17/2014 10:35:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[DMARegion](
+	[id] [numeric](18, 0) IDENTITY(1,1) NOT NULL,
+	[dmaname] [nvarchar](150) NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[country]    Script Date: 08/17/2014 10:35:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[country](
+	[id] [numeric](18, 0) NULL,
+	[country] [nvarchar](150) NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Bike]    Script Date: 08/17/2014 10:35:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Bike](
+	[id] [numeric](18, 0) IDENTITY(1,1) NOT NULL,
+	[bike] [varchar](150) NULL
+) ON [PRIMARY]
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Default [DF__users__salted2__3A4CA8FD]    Script Date: 08/17/2014 10:35:42 ******/
+ALTER TABLE [dbo].[users] ADD  DEFAULT ('') FOR [salted2]
+GO
+/****** Object:  Default [DF_InTake_isNewlyCreated]    Script Date: 08/17/2014 10:35:46 ******/
+ALTER TABLE [dbo].[InTake] ADD  CONSTRAINT [DF_InTake_isNewlyCreated]  DEFAULT ((1)) FOR [isNewlyCreated]
+GO
+/****** Object:  Default [DF_InTake_ReportRegionDMAID]    Script Date: 08/17/2014 10:35:46 ******/
+ALTER TABLE [dbo].[InTake] ADD  CONSTRAINT [DF_InTake_ReportRegionDMAID]  DEFAULT ((-1)) FOR [ReportRegionDMAID]
+GO
+/****** Object:  Default [col_def_injury2]    Script Date: 08/17/2014 10:35:46 ******/
+ALTER TABLE [dbo].[InTake] ADD  CONSTRAINT [col_def_injury2]  DEFAULT ((2)) FOR [InjuryID]
+GO
+/****** Object:  Default [DF_InTake_CountryID]    Script Date: 08/17/2014 10:35:46 ******/
+ALTER TABLE [dbo].[InTake] ADD  CONSTRAINT [DF_InTake_CountryID]  DEFAULT ((-1)) FOR [CountryID]
+GO
+/****** Object:  Default [col_def_state]    Script Date: 08/17/2014 10:35:46 ******/
+ALTER TABLE [dbo].[InTake] ADD  CONSTRAINT [col_def_state]  DEFAULT ('Arizona') FOR [state]
+GO
+/****** Object:  Default [DF_Initial_Method_Value]    Script Date: 08/17/2014 10:35:46 ******/
+ALTER TABLE [dbo].[InTake] ADD  CONSTRAINT [DF_Initial_Method_Value]  DEFAULT ((-1)) FOR [MethodOfInitialContact]
+GO
+/****** Object:  Default [col_def_value_for_injurytype]    Script Date: 08/17/2014 10:35:46 ******/
+ALTER TABLE [dbo].[InTake] ADD  CONSTRAINT [col_def_value_for_injurytype]  DEFAULT ((-1)) FOR [InjuryTypeID]
+GO

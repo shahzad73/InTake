@@ -1,0 +1,32 @@
+﻿
+
+passwords are
+
+user		pass
+----------------
+s			s
+super		s
+
+
+
+deployment notes
+-----------------
+
+change this line in     changestatus.aspx    and make it 2 instead of 11
+drStatus.Items.Insert(11, new ListItem("_____________________________________", "-99")); 
+
+when in devlopment alway remove  https   redirection          and when deploy enbale redirection       login.aspx
+
+
+
+
+
+ALTER TABLE INtake ADD ClientInjuryClassificationAmputation varchar(4000)
+
+
+
+
+
+rep5.aspx
+reports.aspx
+
